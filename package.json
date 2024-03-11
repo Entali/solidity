@@ -6,7 +6,10 @@
   "dependencies": {
     "chai": "^4.4.1",
     "ethers": "^6.6.5",
-    "solc": "^0.8.4"
+    "solc": "^0.8.4",
+    "@nomicfoundation/hardhat-toolbox": "^4.0.0",
+    "dotenv": "^16.4.5",
+    "hardhat": "^2.21.0"
   },
   "main": "index.js",
   "scripts": {
@@ -15,11 +18,5 @@
     "hardhat:compile:force": "hardhat compile --force",
     "hardhat:test": "hardhat test",
     "hardhat:deploy:lock": "hardhat run scripts/deploy.js --network localhost"
-  },
-  "devDependencies": {
-    "@nomicfoundation/hardhat-toolbox": "^4.0.0",
-    "alchemy-sdk": "^3.2.0",
-    "dotenv": "^16.4.5",
-    "hardhat": "^2.21.0"
   }
 }
