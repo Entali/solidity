@@ -19,6 +19,7 @@
   "type": "module",
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^4.0.0",
+    "alchemy-sdk": "^3.2.0",
     "hardhat": "^2.21.0"
   }
 }
