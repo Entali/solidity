@@ -6,7 +6,7 @@
   "description": "A project for learning solidity for blockchain",
   "dependencies": {
     "solc": "^0.8.4",
-    "ethers": "^5.1.4"
+    "ethers": "^6.6.5"
   },
   "scripts": {
     "start": "node index.js"
