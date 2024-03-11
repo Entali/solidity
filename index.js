@@ -14,7 +14,7 @@ console.log('wallet.address::: ', wallet.address)
 async function sign () {
   const withNameAndDate = "Nata Entali " + new Date()
   const signature = await wallet.signMessage(withNameAndDate)
-  console.log('Signature::: ', signature)
+  console.log('signature::: ', signature)
 }
 
 void sign()
