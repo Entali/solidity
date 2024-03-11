@@ -1,9 +1,20 @@
-import { ethers } from 'ethers'
+import { HDNodeWallet } from 'ethers'
 
-// Генеруємо seed-фразу
-const mnemonic12 = ethers.Wallet.createRandom().mnemonic.phrase
-console.log('mnemonic12', mnemonic12)
+// Generating seed pharse
+const mnemonic = HDNodeWallet.createRandom().mnemonic.phrase
+console.log('mnemonic::: ', mnemonic)
 
-const mnemonic24 = ethers.utils.entropyToMnemonic(ethers.utils.randomBytes(32))
-console.log('mnemonic24', mnemonic24)
 
+// Creating wallet
+const wallet = HDNodeWallet.fromPhrase(mnemonic)
+console.log('wallet.privateKey::: ', wallet.privateKey)
+console.log('wallet.address::: ', wallet.address)
+
+
+async function sign () {
+  const withNameAndDate = "Nata Entali " + new Date()
+  const signature = await wallet.signMessage(withNameAndDate)
+  console.log('Signature::: ', signature)
+}
+
+void sign()
