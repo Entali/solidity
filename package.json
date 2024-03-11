@@ -1,15 +1,17 @@
-
 {
   "author": "Nata Entali",
   "name": "solidity-for-blockchain",
   "version": "1.0.0",
   "description": "A project for learning solidity for blockchain",
   "dependencies": {
-    "solc": "^0.8.4",
-    "ethers": "^6.6.5"
+    "ethers": "^6.6.5",
+    "solc": "^0.8.4"
   },
   "scripts": {
     "start": "node index.js"
   },
-  "type": "module"
+  "type": "module",
+  "devDependencies": {
+    "hardhat": "^2.21.0"
+  }
 }
