@@ -18,7 +18,6 @@ async function sign () {
 }
 
 void sign()
-console.log('test');
 
 
 
