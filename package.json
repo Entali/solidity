@@ -3,11 +3,11 @@
   "name": "solidity-for-blockchain",
   "version": "1.0.0",
   "description": "A project for learning solidity for blockchain",
-  "dependencies": {
-    "chai": "^4.4.1",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^3.0.0",
     "ethers": "^6.6.5",
+    "chai": "^4.4.1",
     "solc": "^0.8.4",
-    "@nomicfoundation/hardhat-toolbox": "^4.0.0",
     "dotenv": "^16.4.5",
     "hardhat": "^2.21.0"
   },
@@ -17,6 +17,6 @@
     "hardhat:compile": "hardhat compile",
     "hardhat:compile:force": "hardhat compile --force",
     "hardhat:test": "hardhat test",
-    "hardhat:deploy:lock": "hardhat run scripts/deploy.js --network localhost"
+    "hardhat:deploy:lock": "hardhat run scripts/deploy.js --network sepolia"
   }
 }
