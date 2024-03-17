@@ -4,3 +4,4 @@ artifacts
 cache
 .env
 note.txt
+slither-env
