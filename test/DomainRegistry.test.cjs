@@ -17,8 +17,17 @@ describe("DomainRegistry", function () {
     await domainRegistry.deploymentTransaction().wait()
   });
 
+  describe("Domain Validation", function () {
+    it("Should reject registering a domain with invalid format", async () => {
+      await expect(domainRegistry.connect(addr1).registerDomain(
+          "invalid.com",
+          { value: ethers.parseEther("0.01") }
+      )).to.be.revertedWith("Invalid domain format.");
+    });
+  });
+
   describe("Registration", function () {
-    it("Should register a domain and emit an event", async function () {
+    it("Should register a domain and emit an event", async () => {
       const registerTx = await domainRegistry.connect(addr1).registerDomain(
           "example",
           { value: ethers.parseEther("0.01") }
@@ -37,14 +46,14 @@ describe("DomainRegistry", function () {
       );
     });
 
-    it("Should fail for insufficient funds", async function () {
+    it("Should fail for insufficient funds", async () => {
       await expect(domainRegistry.connect(addr1).registerDomain(
         "fail",
         { value: ethers.parseEther("0.001")
       })).to.be.revertedWith("Insufficient funds for registration.");
     });
 
-    it("Should not allow registering an already registered domain", async function () {
+    it("Should not allow registering an already registered domain", async () => {
       await domainRegistry.connect(addr1).registerDomain(
         "taken",
         { value: ethers.parseEther("0.01")
@@ -53,6 +62,37 @@ describe("DomainRegistry", function () {
         "taken",
         { value: ethers.parseEther("0.01")
       })).to.be.revertedWith("Domain is already registered.");
+    });
+  });
+
+  describe("Fee Management", function () {
+    it("Should allow the owner to update the registration fee", async () => {
+      const newFee = ethers.parseEther("0.02");
+      await expect(domainRegistry.updateRegistrationFee(newFee))
+        .to.emit(domainRegistry, "RegistrationFeeUpdated").withArgs(newFee);
+    });
+
+    it("Should prevent non-owners from updating the registration fee", async () => {
+      const newFee = ethers.parseEther("0.02");
+      await expect(domainRegistry.connect(addr1).updateRegistrationFee(newFee))
+        .to.be.reverted;
+    });
+  });
+
+  describe("Domain Ownership", function () {
+    it("Should correctly return the domains owned by an address", async () => {
+      await domainRegistry.connect(addr1).registerDomain(
+        "example",
+        { value: ethers.parseEther("0.01")
+      });
+      await domainRegistry.connect(addr1).registerDomain(
+        "example2",
+        { value: ethers.parseEther("0.01")
+      });
+
+      const ownedDomains = await domainRegistry.getDomainsByOwner(addr1.address);
+      expect(ownedDomains).to.include("example");
+      expect(ownedDomains).to.include("example2");
     });
   });
 })
