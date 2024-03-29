@@ -1,7 +1,7 @@
 const { expect } = require('chai');
 const { ethers } = require('hardhat');
 
-describe("DomainRegistry", function () {
+describe("DomainRegistry", () => {
   let DomainRegistry;
   let domainRegistry;
   let owner;
@@ -9,7 +9,7 @@ describe("DomainRegistry", function () {
   let addr2;
   let addrs;
 
-  beforeEach(async function () {
+  beforeEach(async () => {
     DomainRegistry = await ethers.getContractFactory("DomainRegistry");
     [owner, addr1, addr2, ...addrs] = await ethers.getSigners();
 
@@ -17,7 +17,7 @@ describe("DomainRegistry", function () {
     await domainRegistry.deploymentTransaction().wait()
   });
 
-  describe("Domain Validation", function () {
+  describe("Domain Validation", () => {
     it("Should reject registering a domain with invalid format", async () => {
       await expect(domainRegistry.connect(addr1).registerDomain(
           "invalid.com",
@@ -26,7 +26,7 @@ describe("DomainRegistry", function () {
     });
   });
 
-  describe("Registration", function () {
+  describe("Registration", () => {
     it("Should register a domain and emit an event", async () => {
       const registerTx = await domainRegistry.connect(addr1).registerDomain(
           "example",
@@ -65,7 +65,7 @@ describe("DomainRegistry", function () {
     });
   });
 
-  describe("Fee Management", function () {
+  describe("Fee Management", () => {
     it("Should allow the owner to update the registration fee", async () => {
       const newFee = ethers.parseEther("0.02");
       await expect(domainRegistry.updateRegistrationFee(newFee))
@@ -79,7 +79,7 @@ describe("DomainRegistry", function () {
     });
   });
 
-  describe("Domain Ownership", function () {
+  describe("Domain Ownership", () => {
     it("Should correctly return the domains owned by an address", async () => {
       await domainRegistry.connect(addr1).registerDomain(
         "example",
