@@ -6,7 +6,7 @@ const INFURA_API_KEY = process.env.INFURA_API_KEY || "";
 
 
 module.exports = {
-  solidity: "0.8.24",
+  solidity: "0.8.19",
   networks: {
     sepolia: {
       url: `https://sepolia.infura.io/v3/${INFURA_API_KEY}`,
