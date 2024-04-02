@@ -9,14 +9,11 @@ import "@openzeppelin/contracts/access/Ownable.sol";
  * @dev Implements domain registration with an updatable fixed fee. Ownership is managed by OpenZeppelin's Ownable.
  */
 contract DomainRegistry is Ownable {
-    // @notice Registration fee for each domain
+    // @notice Registration fee for a domain
     uint256 public registrationFee;
 
-    // @notice Maps domain names to their respective Ethereum address owner
+    // @notice Maps domain names to their Ethereum address owner
     mapping(string => address) private domainToOwner;
-
-    // @notice Maps an Ethereum address to their list of domains
-    mapping(address => string[]) private domainsByOwner;
 
     // @notice Emitted when a domain is registered
     event DomainRegistered(string domain, address indexed owner, uint256 timestamp);
@@ -43,7 +40,6 @@ contract DomainRegistry is Ownable {
         require(domainToOwner[domain] == address(0), "Domain is already registered.");
 
         domainToOwner[domain] = msg.sender;
-        domainsByOwner[msg.sender].push(domain);
 
         emit DomainRegistered(domain, msg.sender, block.timestamp);
     }
@@ -72,11 +68,11 @@ contract DomainRegistry is Ownable {
     }
 
     /**
-     * @notice Retrieves a list of domains registered to an address.
-     * @param _owner The address of the domain owner
-     * @return domains The domains owned by the address
+     * @notice Retrieves the owner of a specific domain.
+     * @param domain The domain to query the owner
+     * @return owner The address of the domain owner
      */
-    function getDomainsByOwner(address _owner) public view returns (string[] memory) {
-        return domainsByOwner[_owner];
+    function getOwnerOfDomain(string memory domain) public view returns (address) {
+        return domainToOwner[domain];
     }
 }
