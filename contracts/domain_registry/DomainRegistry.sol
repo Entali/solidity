@@ -3,33 +3,40 @@ pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-/// @title A simple domain registry contract
-/// @notice This contract allows for the registration of top-level domains associated with Ethereum addresses.
-/// @dev This contract implements domain registration with a fixed fee that can be updated by the contract owner.
+/**
+ * @title A simple domain registry contract
+ * @notice This contract enables Ethereum addresses to register top-level domains.
+ * @dev Implements domain registration with an updatable fixed fee. Ownership is managed by OpenZeppelin's Ownable.
+ */
 contract DomainRegistry is Ownable {
-    /// @notice Registration fee for each domain
+    // @notice Registration fee for each domain
     uint256 public registrationFee;
 
-    /// @notice Maps domain names to their respective Ethereum address owner
+    // @notice Maps domain names to their respective Ethereum address owner
     mapping(string => address) private domainToOwner;
 
-    /// @notice Maps an Ethereum address to their list of domains
+    // @notice Maps an Ethereum address to their list of domains
     mapping(address => string[]) private domainsByOwner;
 
-    /// @notice Emitted when a domain is registered
+    // @notice Emitted when a domain is registered
     event DomainRegistered(string domain, address indexed owner, uint256 timestamp);
 
-    /// @notice Emitted when the registration fee is updated
+    // @notice Emitted when the registration fee is updated
     event RegistrationFeeUpdated(uint256 newFee);
 
-    /// @param _registrationFee The initial registration fee for domain registration
+    /**
+     * @notice Create a new DomainRegistry with a specified fee for registration
+     * @param _registrationFee The initial registration fee
+     */
     constructor(uint256 _registrationFee) {
         registrationFee = _registrationFee;
     }
 
-    /// @notice Registers a domain
-    /// @dev Registers a domain to the sender's address if the domain is not already registered, the fee is paid, and the domain is valid.
-    /// @param domain The domain to be registered
+    /**
+     * @notice Register a domain if it's not already taken and the fee is paid.
+     * @dev The domain must be a valid TLD (top-level domain) and not previously registered.
+     * @param domain The domain to be registered
+     */
     function registerDomain(string memory domain) public payable {
         require(msg.value >= registrationFee, "Insufficient funds for registration.");
         require(validateDomain(domain), "Invalid domain format.");
@@ -41,9 +48,11 @@ contract DomainRegistry is Ownable {
         emit DomainRegistered(domain, msg.sender, block.timestamp);
     }
 
-    /// @notice Validates the domain format as a TLD
-    /// @param domain The domain to validate
-    /// @return isValid True if the domain is a valid TLD
+    /**
+     * @dev Validates a domain to ensure it conforms to TLD criteria.
+     * @param domain The domain to validate
+     * @return isValid True if the domain is a valid TLD
+     */
     function validateDomain(string memory domain) internal pure returns (bool isValid) {
         for (uint i = 0; i < bytes(domain).length; i++) {
             if (bytes(domain)[i] == '.') {
@@ -53,16 +62,20 @@ contract DomainRegistry is Ownable {
         return true;
     }
 
-    /// @notice Allows the owner to update the registration fee
-    /// @param _newFee The new fee for registering a domain
+    /**
+     * @notice Updates the domain registration fee.
+     * @param _newFee The new registration fee
+     */
     function updateRegistrationFee(uint256 _newFee) public onlyOwner {
         registrationFee = _newFee;
         emit RegistrationFeeUpdated(_newFee);
     }
 
-    /// @notice Retrieves the list of domains owned by a specific address
-    /// @param _owner The address to query the domains of
-    /// @return domains The list of domains owned by the address
+    /**
+     * @notice Retrieves a list of domains registered to an address.
+     * @param _owner The address of the domain owner
+     * @return domains The domains owned by the address
+     */
     function getDomainsByOwner(address _owner) public view returns (string[] memory) {
         return domainsByOwner[_owner];
     }
