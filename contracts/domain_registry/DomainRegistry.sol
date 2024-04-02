@@ -15,8 +15,8 @@ contract DomainRegistry is Ownable {
     // @notice Maps domain names to their Ethereum address owner
     mapping(string => address) private domainToOwner;
 
-    // @notice Emitted when a domain is registered
-    event DomainRegistered(string domain, address indexed owner, uint256 timestamp);
+    /// @notice Emitted when a domain is registered
+    event DomainRegistered(string domain, address indexed owner);
 
     // @notice Emitted when the registration fee is updated
     event RegistrationFeeUpdated(uint256 newFee);
@@ -41,7 +41,7 @@ contract DomainRegistry is Ownable {
 
         domainToOwner[domain] = msg.sender;
 
-        emit DomainRegistered(domain, msg.sender, block.timestamp);
+        emit DomainRegistered(domain, msg.sender);
     }
 
     /**
