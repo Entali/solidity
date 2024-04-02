@@ -3,20 +3,27 @@
   "name": "solidity-for-blockchain",
   "version": "1.0.0",
   "description": "A project for learning solidity for blockchain",
+  "type": "module",
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^3.0.0",
-    "ethers": "^6.6.5",
     "chai": "^4.4.1",
-    "solc": "^0.8.4",
     "dotenv": "^16.4.5",
-    "hardhat": "^2.21.0"
+    "ethers": "^6.6.5",
+    "hardhat": "^2.17.0",
+    "@openzeppelin/contracts": "^4.9.3"
   },
   "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
   "scripts": {
     "hardhat:node": "hardhat node",
     "hardhat:compile": "hardhat compile",
     "hardhat:compile:force": "hardhat compile --force",
     "hardhat:test": "hardhat test",
-    "hardhat:deploy:lock": "hardhat run scripts/deploy.js --network sepolia"
+    "hardhat:deploy:lock": "hardhat run scripts/deploy.js --network sepolia",
+    "hardhat:clean": "hardhat clean",
+    "hardhat:test:simple_storage": "hardhat test test/SimpleStorage.test.cjs",
+    "hardhat:test:domain_registry": "hardhat test test/DomainRegistry.test.cjs"
   }
 }
